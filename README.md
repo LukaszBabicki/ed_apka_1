@@ -1,4 +1,4 @@
-# Ewolucja Developera - Starter
+# ED - Starter
 
 ```bash
 git clone <repo-url>
