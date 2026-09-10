@@ -10,6 +10,7 @@
 - Path aliases: import from '@/types', '@/store', '@/lib', '@/components'
 - Prefer const over let, never use var
 - Destructure imports: import { Flight } from '@/types'
+- Tests use Vitest + jsdom, globals enabled (no need to import describe/it/expect), jest-dom matchers available via vitest.setup.ts
 
 ## Project Structure
 - app/ - Next.js App Router pages and API routes
