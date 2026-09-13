@@ -103,4 +103,62 @@ describe('FlightBoard', () => {
     ).toBeInTheDocument();
     expect(screen.getByText('0 flights')).toBeInTheDocument();
   });
+
+  it('filters flights by airline', async () => {
+    const user = userEvent.setup();
+    render(<FlightBoard initialFlights={mockFlights} />);
+
+    const airlineSelect = screen.getByDisplayValue('All Airlines');
+    await user.selectOptions(airlineSelect, 'Ryanair');
+
+    expect(screen.getByText('FR456')).toBeInTheDocument();
+    expect(screen.queryByText('LO123')).not.toBeInTheDocument();
+    expect(screen.queryByText('LH789')).not.toBeInTheDocument();
+    expect(screen.getByText('1 flight')).toBeInTheDocument();
+  });
+
+  it('filters flights by status', async () => {
+    const user = userEvent.setup();
+    render(<FlightBoard initialFlights={mockFlights} />);
+
+    const statusSelect = screen.getByDisplayValue('All Statuses');
+    await user.selectOptions(statusSelect, 'Delayed');
+
+    expect(screen.getByText('LH789')).toBeInTheDocument();
+    expect(screen.queryByText('LO123')).not.toBeInTheDocument();
+    expect(screen.queryByText('FR456')).not.toBeInTheDocument();
+    expect(screen.getByText('1 flight')).toBeInTheDocument();
+  });
+
+  it('filters flights by destination, case-insensitively and partially', async () => {
+    const user = userEvent.setup();
+    render(<FlightBoard initialFlights={mockFlights} />);
+
+    const destinationInput = screen.getByPlaceholderText('Destination…');
+    await user.type(destinationInput, 'frank');
+
+    expect(screen.getByText('LH789')).toBeInTheDocument();
+    expect(screen.queryByText('LO123')).not.toBeInTheDocument();
+    expect(screen.queryByText('FR456')).not.toBeInTheDocument();
+    expect(screen.getByText('1 flight')).toBeInTheDocument();
+  });
+
+  it('combines multiple active filters', async () => {
+    const user = userEvent.setup();
+    render(<FlightBoard initialFlights={mockFlights} />);
+
+    const terminalSelect = screen.getByDisplayValue('All Terminals');
+    await user.selectOptions(terminalSelect, 'T1');
+
+    // T1 alone still matches LO123 and LH789
+    expect(screen.getByText('2 flights')).toBeInTheDocument();
+
+    const statusSelect = screen.getByDisplayValue('All Statuses');
+    await user.selectOptions(statusSelect, 'Delayed');
+
+    // T1 + Delayed narrows down to only LH789
+    expect(screen.getByText('LH789')).toBeInTheDocument();
+    expect(screen.queryByText('LO123')).not.toBeInTheDocument();
+    expect(screen.getByText('1 flight')).toBeInTheDocument();
+  });
 });

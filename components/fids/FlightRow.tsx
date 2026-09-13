@@ -51,7 +51,11 @@ export function FlightRow({ flight, index }: FlightRowProps) {
       </span>
       <span className="tabular-nums text-center text-amber-100">{flight.departureTime}</span>
       <span className="text-center text-board-muted">{flight.terminal}</span>
-      <span className="text-center text-board-muted">{flight.gate}</span>
+      <span className="flex justify-center">
+        <span className="inline-flex items-center justify-center px-1.5 py-0.5 text-xs font-bold rounded-sm bg-zinc-800 text-amber-200 border border-board-border min-w-[2.5rem]">
+          {flight.gate}
+        </span>
+      </span>
 
       <div className={cn('split-flap-wrapper', isAnimating && 'split-flap-char animating')}>
         <StatusBadge status={flight.status} />
