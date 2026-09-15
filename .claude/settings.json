@@ -28,11 +28,11 @@
             "Bash(git *)",
             "Bash(npm *)",
             "Read(**)",
-            "Write(app/**)",
-            "Write(components/**)",
-            "Write(lib/**)",
-            "Write(store/**)",
-            "Write(types/**)"
+            "Edit(app/**)",
+            "Edit(components/**)",
+            "Edit(lib/**)",
+            "Edit(store/**)",
+            "Edit(types/**)"
         ],
         "ask": [
             "Bash(git push *)"
@@ -42,7 +42,7 @@
             "Bash(git push --force *)",
             "Bash(curl * | bash)",
             "Bash(wget * | sh)",
-            "Write(.claude/**)",
+            "Edit(.claude/**)",
             "Read(**/.env*)",
             "Read(**/*.key)",
             "Read(**/*.pem)"
