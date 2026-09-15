@@ -18,4 +18,9 @@ if echo "$COMMAND" | grep -qE 'rm\s+-rf|rm\s+(-\w*\s+)?data/|git\s+push\s+--forc
   deny "Zablokowano niebezpieczną komendę. Użyj bezpieczniejszej alternatywy."
 fi
 
+# Blokada dostępu do plików z sekretami przez Bash (Read(deny) tego NIE pokrywa)
+if echo "$COMMAND" | grep -qE '\.env(\.[a-zA-Z]+)?\b|\.pem\b|\.key\b'; then
+  deny "Zablokowano dostęp do pliku z sekretami (.env/.key/.pem) przez Bash."
+fi
+
 exit 0

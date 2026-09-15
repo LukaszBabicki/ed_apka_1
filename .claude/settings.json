@@ -22,5 +22,30 @@
                 ]
             }
         ]
+    },
+    "permissions": {
+        "allow": [
+            "Bash(git *)",
+            "Bash(npm *)",
+            "Read(**)",
+            "Write(app/**)",
+            "Write(components/**)",
+            "Write(lib/**)",
+            "Write(store/**)",
+            "Write(types/**)"
+        ],
+        "ask": [
+            "Bash(git push *)"
+        ],
+        "deny": [
+            "Bash(rm -rf *)",
+            "Bash(git push --force *)",
+            "Bash(curl * | bash)",
+            "Bash(wget * | sh)",
+            "Write(.claude/**)",
+            "Read(**/.env*)",
+            "Read(**/*.key)",
+            "Read(**/*.pem)"
+        ]
     }
 }
