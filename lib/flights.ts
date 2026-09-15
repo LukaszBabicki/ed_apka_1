@@ -43,6 +43,14 @@ function computeFlightStatus(flight: Flight): Flight {
   return { ...flight, status };
 }
 
+export function formatDepartureTime12h(departureTime: Flight['departureTime']): string {
+  const [h, m] = departureTime.split(':').map(Number);
+  const period = h >= 12 ? 'PM' : 'AM';
+  const hour12 = h % 12 === 0 ? 12 : h % 12;
+  const minutes = String(m).padStart(2, '0');
+  return `${hour12}:${minutes} ${period}`;
+}
+
 export function readFlights(): Flight[] {
   const raw = fs.readFileSync(dataPath, 'utf-8');
   const flights = JSON.parse(raw) as Flight[];

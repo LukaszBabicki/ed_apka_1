@@ -1,7 +1,7 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import path from 'path';
 import fs from 'fs';
-import { readFlights, writeFlights, resetToSeed } from '@/lib/flights';
+import { readFlights, writeFlights, resetToSeed, formatDepartureTime12h } from '@/lib/flights';
 import type { Flight } from '@/types';
 
 vi.mock('fs', () => ({
@@ -125,6 +125,28 @@ describe('writeFlights', () => {
     writeFlights([]);
 
     expect(mockedFs.writeFileSync).toHaveBeenCalledWith(dataPath, '[]', 'utf-8');
+  });
+});
+
+describe('formatDepartureTime12h', () => {
+  it('formatuje czas przedpołudniowy do formatu 12-godzinnego (happy path)', () => {
+    expect(formatDepartureTime12h('09:05')).toBe('9:05 AM');
+  });
+
+  it('formatuje czas popołudniowy do formatu 12-godzinnego (happy path)', () => {
+    expect(formatDepartureTime12h('13:45')).toBe('1:45 PM');
+  });
+
+  it('formatuje północ (00:00) jako 12:00 AM (edge case)', () => {
+    expect(formatDepartureTime12h('00:00')).toBe('12:00 AM');
+  });
+
+  it('formatuje południe (12:00) jako 12:00 PM (edge case)', () => {
+    expect(formatDepartureTime12h('12:00')).toBe('12:00 PM');
+  });
+
+  it('formatuje ostatnią minutę doby (23:59) jako 11:59 PM (edge case)', () => {
+    expect(formatDepartureTime12h('23:59')).toBe('11:59 PM');
   });
 });
 
